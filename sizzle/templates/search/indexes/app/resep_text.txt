@@ -1,0 +1,5 @@
+{{ object.nama_resep }}
+{{ object.definisi }}
+{{ object.bahan }}
+{{ object.informasi_nutrisi }}
+{{ object.cara_membuat }}

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+{% extends 'base_user.html' %}
+{% load static %}
+
+{% block body_block %}
+
+<title>Sizzle - Kelas Saya</title>
+
+<nav aria-label="breadcrumb mt-5">
+    <ol class="breadcrumb breadcrumb-chevron p-3 rounded-3">
+        <li class="breadcrumb-item">
+            <a class="link-body-emphasis" href="{% url 'index' %}">
+                <i class="bi bi-house-door-fill"></i>
+            </a>
+        </li>
+        <li class="breadcrumb-item active" aria-current="page">
+            Kelas Saya
+        </li>
+    </ol>
+</nav>
+
+<div class="row mb-2 border-none">
+    {% for uk in user_kursus %}
+    <a href="{% url 'detail_kursus_lms' id_kursus=uk.kursus.id_kursus %}" class="text-decoration-none">
+        <div class="col-md-6 mb-3">
+
+            <div class="row g-0 border rounded overflow-hidden flex-md-row mb-4 shadow-sm h-md-250 position-relative">
+                <div class="col p-4 flex-column">
+                    <strong class="d-inline-block fw-normal mb-2 text-primary-emphasis">ID Kegiatan: {{ uk.kursus.id_kegiatan }}</strong>
+                    <h4>{{ uk.kursus.nama_kursus }}</h4><br>
+                    <span
+                        class="card-text text-end badge bg-light-subtle text-body-emphasis fw-normal rounded-pill bi bi-people-fill">
+                        {{ uk.kursus.jumlah_peserta }} Peserta
+                    </span>
+                </div>
+                <div class="col-auto d-none d-lg-block">
+                    <img src="{{ uk.kursus.gambar_kursus.url }}" alt="{{ uk.kursus.nama_kursus }}" class="img-fluid"
+                        style="width: 200px; height: 200px; object-fit: cover;">
+                </div>
+            </div>
+        </div>
+    </a>
+    {% endfor %}
+</div>
+
+{% endblock %}
+
+</html>

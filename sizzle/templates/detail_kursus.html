@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+
+<div class="container">
+<title>Sizzle - {{ kursus.nama_kursus }}</title>
+
+<nav aria-label="breadcrumb">
+    <ol class="breadcrumb breadcrumb-chevron p-3 rounded-3">
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis" href="#">
+            <i class="bi bi-house-door-fill"></i>
+        </a>
+      </li>
+      <li class="breadcrumb-item">
+        <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">Kursus</a>
+      </li>
+      <li class="breadcrumb-item active" aria-current="page">
+        Detail-Kursus
+      </li>
+    </ol>
+  </nav>
+
+
+<div class="row mb-5">
+    <div class="col-lg-5 themed-grid-col mb-5">
+        <div class="position-relative">
+            <img src="{{ kursus.gambar_kursus.url }}" alt="{{ kursus.nama_kursus }}" class="img-fluid rounded-2" style="width: 100%; height: 350px; object-fit: cover;">
+        </div>
+    </div>
+    <div class="col-lg-7 themed-grid-col">
+        <h2>{{ kursus.nama_kursus }}</h2>
+        <p>ID Kegiatan: {{ kursus.id_kegiatan }}</p>
+            <div class="row g-3">
+            <div class="col-md-6">
+                <p>Chef: {{ kursus.chef }}</p>
+            </div>
+            <div class="col-md-6">
+                <p><i class="bi bi-calendar"></i>  {{ kursus.tanggal_mulai }} - {{ kursus.tanggal_selesai }}</p>
+            </div>
+        </div>
+        <p class="fs-6 fw-light lh-base mb-4">{{ kursus.deskripsi_singkat }}</p>
+        <p class="bi bi-pin-fill"> Level Kelas : {{ kursus.tingkat_kesulitan }}</p>
+        <p><i class="bi bi-people-fill"></i> {{ kursus.jumlah_peserta }} Peserta</p>
+    </div>
+</div>
+
+<div class="row g-1">
+    <div class="col-lg-7">
+        <h5 class="mb-3 font-1">Detail Kursus</h5>
+        <p class="fs-6 fw-light lh-base mb-4">{{ kursus.deskripsi_kursus }}</p>
+        <h5 class="mb-3 font-1">Materi Kursus</h5>
+        <p class="fs-6 fw-light lh-base mb-4">{{ kursus.materi_kursus }}</p>
+        <h5 class="mb-3 font-1">Syarat Pendaftaran</h5>
+        <p class="fs-6 fw-light lh-base">{{ kursus.syarat_pendaftaran }}</p>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-4">
+        <h4 class="d-flex justify-content-between align-items-center mb-4">
+            <h4 class="mb-4" class="fw-semibold" style="color: #198CD6;">Mendaftar</h4>
+        </h4>
+        <ul class="list-group mb-2">
+            <li class="list-group-item d-flex justify-content-between lh-sm">
+                <div>
+                    <h5 class="my-0 mb-2 mt-2 fw-semibold font-1">{{ kursus.nama_kursus }}</h5>
+                </div>
+            </li>
+            <li class="list-group-item mb-2 d-flex justify-content-between">
+                <h6 class="fw-semibold font-1"">Harga</h6>
+                <h6 class="fw-semibold font-1">{{ kursus.harga_kursus }}</h6>
+            </li>
+            <li class="list-group-item d-flex justify-content-center">
+                <a href="{% url 'daftar_kursus' kursus.id_kursus %}" class="second-btn">Daftar Sekarang</a>
+            </li>
+        </ul>
+    </div>
+</div>
+
+
+
+</div>
+{% endblock %}
+
+</html>

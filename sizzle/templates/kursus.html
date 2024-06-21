@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+
+{% block body_block %}
+<div class="container">
+<title>Sizzle - Kursus Memasak</title>
+
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="box-container">
+  <div class="col-md-12 text-center">
+    <h2>Kursus Memasak</h2>
+    <div class="justify-content-center py-5">
+      <a href="{% url 'kursus' %}" class="text-decoration-none">
+        <span class="kategori-badge align-items-center p-2 pe-2 ps-2">Semua</span>
+      </a>
+      {% for kategori in kategori_kursuss %}
+      <a href="{% url 'kursus' %}?kategori={{ kategori.id_kategori_kursus }}" class="text-decoration-none">
+        <span class="kategori-badge align-items-center p-2 pe-2 ps-2">
+          {{ kategori.kategori_kursus|title }}
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+    <form role="search" action="{% url 'search' %}" method="get">
+      <input class="search pe-2" id="filter" type="search" placeholder="Cari Kursus" aria-label="Search" name="q">
+  </form>
+  
+  
+  </div>
+
+  {% for kursus in kursuss %}
+  <div class="col-6 mb-3">
+    <a href="{% url 'detail_kursus' kursus.id_kursus %}">
+      <div class="card shadow-none rounded-3 border-0">
+        <div class="position-relative">
+
+          {% if kursus.gambar_kursus %}
+          <img src="{{ kursus.gambar_kursus.url }}" alt="{{ kursus.nama_kursus }}" class="img-fluid">
+          {% else %}
+          <img src="{% static 'images/sizzle-logo.svg' %}" alt="Default Image" class="img-fluid">
+          {% endif %}
+
+          <i class="bi bi-play-circle-fill position-absolute top-50 start-50 translate-middle text-white"
+            style="font-size: 3rem"></i>
+        </div>
+        <div class="card-body">
+          <h5 class="card-title text-body-emphasis fw-normal">{{ kursus.nama_kursus }}</h5>
+          <p class="card-text text-light-emphasis bi bi-person-badge"> {{ kursus.chef }}</p>
+          <div class="rating">
+            {% for i in "12345" %}
+            {% if forloop.counter <= kursus.rating|floatformat %} <span class="star text-warning">&#9733;</span>
+              {% else %}
+              <span class="star">&#9733;</span>
+              {% endif %}
+              {% endfor %}
+          </div>
+          <br />
+          <h5 class="text-body-emphasis fw-normal">Rp. {{ kursus.harga_kursus }} ,-</h5>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="col-md-12 text-center mt-5 pt-4 mb-5">
+  <div id="pagination-container">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link prev" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link active" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link next" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+</div>
+{% endblock %}
+
+</html>

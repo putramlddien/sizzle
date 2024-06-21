@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+
+<div class="container">
+<title>Sizzle - {{ resep.nama_resep }}</title>
+
+<nav aria-label="breadcrumb">
+  <ol class="breadcrumb breadcrumb-chevron p-3 bg-body-tertiary rounded-3">
+    <li class="breadcrumb-item">
+      <a class="link-body-emphasis" href="#">
+          <i class="bi bi-house-door-fill"></i>
+      </a>
+    </li>
+    <li class="breadcrumb-item">
+      <a class="link-body-emphasis fw-semibold text-decoration-none" href="#">Resep</a>
+    </li>
+    <li class="breadcrumb-item active" aria-current="page">
+      Detail-Resep
+    </li>
+  </ol>
+</nav>
+
+<div class="row text-body-emphasis">
+  <div class="col-lg-5 themed-grid-col">
+    <h2>{{ resep.nama_resep }}</h2>
+    <p class="fs-6 fw-light lh-base">
+      {{ resep.definisi }}
+    </p>
+    <div class="rating">
+      {% for i in "12345" %}
+      {% if forloop.counter <= resep.rating|floatformat %} <span class="star text-warning">&#9733;</span>
+        {% else %}
+        <span class="star">&#9733;</span>
+        {% endif %}
+        {% endfor %}
+    </div><br>
+    <span class="badge text-body-emphasis fw-normal rounded-pill bi bi-stopwatch" style="font-size: 1.1rem;">
+      {{ resep.durasi }} Menit
+    </span>
+    <span class="badge text-body-emphasis fw-normal rounded-pill bi bi-people-fill" style="font-size: 1.1rem;">
+      {{ resep.porsi }} Porsi
+    </span>
+  </div>
+  <div class="col-lg-7 themed-grid-col mb-5">
+    <div class="position-relative">
+        {% if resep.gambar_resep %}
+            <img src="{{ resep.gambar_resep.url }}" alt="{{ resep.nama_resep }}" class="img-fluid rounded-4"
+                 style="width: 100%; height: 350px; object-fit: cover;">
+        {% else %}
+            <img src="{% static 'images/sizzle-logo.svg' %}" alt="Default Image" class="img-fluid">
+        {% endif %}
+        <i class="bi bi-play-circle-fill position-absolute top-50 start-50 translate-middle text-white"
+           style="font-size: 3rem"></i>
+    </div>
+</div>
+
+
+</div>
+<div class="row text-body-emphasis mt-3">
+  <div class="col-md-5 themed-grid-col">
+    <div class="accordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne"
+            aria-expanded="true" aria-controls="collapseOne">
+            <h5>Bahan</h5>
+          </button>
+        </h2>
+        <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="bahan">
+          <div class="accordion-body">
+            {% for bahan in bahan_list %}
+            <ul class="list-group">
+              <li class="list-group-item">
+                <input class="form-check-input me-1" type="checkbox"
+                  id="bahan{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                <label class="form-check-label stretched-link"
+                  for="bahan{{ forloop.parentloop.counter }}{{ forloop.counter }}">
+                  {{ bahan }}
+                </label>
+              </li>
+            </ul>
+            <br>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse"
+            data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+            <h5>Informasi Nutrisi</h5>
+          </button>
+        </h2>
+        <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="nutrisi">
+          <div class="accordion-body">
+            <p class="card-text">{{ informasi_nutrisi }}</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- CARA MEMBUAT -->
+
+  <div class="col-md-7 themed-grid-col">
+    <div class="accordion">
+      <div class="accordion-item">
+        <h2 class="accordion-header">
+          <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThird"
+            aria-expanded="true" aria-controls="collapseThird">
+            <h5>Cara Membuat</h5>
+          </button>
+        </h2>
+        <div id="collapseThird" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
+          <div class="accordion-body">
+            <ul class="list-group">
+              {% for langkah in langkah_cara_membuat %}
+              <li class="list-group-item">
+                <div class="card mb-3" style="max-width: 540px;">
+                  <div class="row g-0">
+                    <div class="col-md-1 text-center d-flex align-items-center justify-content-center">
+                      <h5 class="fw-bold text-primary-emphasis">{{ forloop.counter }}</h5>
+                    </div>
+                    <div class="col-md-11">
+                      <div class="card-body">
+                        <p class="card-text">{{ langkah }}</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              {% endfor %}
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+</div>
+{% endblock %}
+
+</html>

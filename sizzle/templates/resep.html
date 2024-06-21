@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<div class="container">
+<title>Sizzle - Resep Memasak</title>
+
+<div class="row row-cols-1 row-cols-sm-2 row-cols-md-3 g-4" id="box-container">
+  <div class="col-md-12 text-center">
+    <h2>Resep Makanan</h2>
+    <div class="justify-content-center py-5">
+      <a href="{% url 'resep' %}" class="text-decoration-none">
+        <span class="kategori-badge align-items-center p-2 pe-2 ps-2">Semua
+        </span>
+      </a>
+      {% for kategori in kategori_reseps %}
+      <a href="{% url 'resep' %}?kategori={{ kategori.id_kategori_resep }}" class="text-decoration-none">
+        <span class="kategori-badge align-items-center p-2 pe-2 ps-2">
+          {{ kategori.kategori_resep|title }}
+        </span>
+      </a>
+      {% endfor %}
+    </div>
+    <form role="search" action="{% url 'search' %}" method="get">
+      <input class="search pe-2" id="filter" type="search" placeholder="Cari Resep" aria-label="Search" name="q">
+  </form>  
+  </div>
+
+  {% for resep in reseps %}
+  <div class="col-6 mb-3">
+    <a href="{% url 'detail_resep' resep.id_resep %}">
+      <div class="card shadow-none rounded-3 border-0">
+        <div class="position-relative">
+          {% if resep.gambar_resep %}
+          <img src="{{ resep.gambar_resep.url }}" alt="{{ resep.nama_resep }}" class="img-fluid" />
+          {% else %}
+          <img src="{% static 'images/sizzle-logo.svg' %}" alt="Default Image" class="img-fluid">
+          {% endif %}
+          <i class="bi bi-play-circle-fill position-absolute top-50 start-50 translate-middle text-white"
+            style="font-size: 3rem"></i>
+        </div>
+        <div class="card-body">
+          <div class="text-center">
+            <h5 class="text-body-emphasis fw-normal">{{ resep.nama_resep }}</h5>
+            <div class="rating">
+              {% for i in "12345" %}
+              {% if forloop.counter <= resep.rating|floatformat %} <span class="star text-warning">&#9733;</span>
+                {% else %}
+                <span class="star">&#9733;</span>
+                {% endif %}
+                {% endfor %}
+            </div>
+            <br />
+            <span class="badge bg-light-subtle text-body-emphasis fw-normal rounded-pill bi bi-stopwatch">
+              {{ resep.durasi }} Menit
+            </span>
+            <span class="badge bg-light-subtle text-body-emphasis fw-normal rounded-pill bi bi-people-fill">
+              {{ resep.porsi }} Porsi
+            </span>
+          </div>
+        </div>
+      </div>
+    </a>
+  </div>
+  {% endfor %}
+</div>
+
+<div class="col-md-12 text-center mt-5 pt-4 mb-5">
+  <div id="pagination-container">
+    <nav aria-label="Page navigation example">
+      <ul class="pagination justify-content-center">
+        <li class="page-item">
+          <a class="page-link prev" href="#" aria-label="Previous">
+            <span aria-hidden="true">&laquo;</span>
+          </a>
+        </li>
+        <li class="page-item"><a class="page-link active" href="#">1</a></li>
+        <li class="page-item"><a class="page-link" href="#">2</a></li>
+        <li class="page-item"><a class="page-link" href="#">3</a></li>
+        <li class="page-item">
+          <a class="page-link next" href="#" aria-label="Next">
+            <span aria-hidden="true">&raquo;</span>
+          </a>
+        </li>
+      </ul>
+    </nav>
+  </div>
+</div>
+
+</div>
+</div>
+{% endblock %}
+
+</html>

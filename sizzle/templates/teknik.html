@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<div class="container">
+  <div class="marketing">
+    <div class="col-md-12 text-center mb-5">
+      <h2>Teknik Memasak</h2>
+    </div>
+    <div class="row">
+      {% for teknik in teknik_utama %}
+      <div class="col-lg-4 text-center mb-5">
+        <div class="position-relative">
+          <img src="{{ teknik.gambar_artikel.url }}" class="rounded-5" alt="{{ teknik.judul_teknik }}">
+        </div>
+        <h4 class="fw-normal mt-3">{{ teknik.judul_teknik }}</h4>
+        <p class="fw-light text-center">{{ teknik.isi_artikel|truncatewords:15 }}</p>
+        <p><a class="second-btn" href="{% url 'teknik_memasak' kategori=teknik.kategori_teknik.kategori_teknik %}">Lihat
+            Selengkapnya
+            &raquo;</a></p>
+      </div>
+      {% endfor %}
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+</html>

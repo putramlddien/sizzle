@@ -1,0 +1,30 @@
+{% extends 'base-logreg.html' %}
+{% load static %}
+
+{% block body_block %}
+<title>Sizzle - Masuk</title>
+
+<div class="cover-image-login">
+  <img src="{% static 'images/coming_soon.jpg' %}" alt="Cover Image" class="w-100 h-100 img-fluid">
+</div>
+
+<form method="post">
+  {% csrf_token %}
+  <h1 class="mb-3">Masuk</h1>
+  {% if error_message %}
+    <p>{{ error_message }}</p>
+  {% endif %}
+  <label>Email Address</label><br>
+  <input type="email" class="form-input mb-3" name="email" placeholder="Email Address" /><br>
+  <label>Password</label><br>
+  <input type="password" class="form-input mb-3" name="password" placeholder="Password" />
+  <div class="forgot-password d-flex justify-content-end mb-2">
+    <a href="#" class="text-decoration-none">Lupa kata sandi?</a>
+  </div>
+  <button class="btn w-100 py-2" type="submit">Masuk</button>
+  <div class="text-center mt-2">
+    <p>Belum mempunyai akun? <a href="{% url 'register' %}" class="text-decoration-none">Daftar Sekarang</a></p>
+  </div>
+</form>
+
+{% endblock %}

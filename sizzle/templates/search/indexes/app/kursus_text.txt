@@ -1,0 +1,5 @@
+{{ object.nama_kursus }}
+{{ object.deskripsi_singkat }}
+{{ object.deskripsi_kursus }}
+{{ object.chef }}
+{{ object.tingkat_kesulitan }}

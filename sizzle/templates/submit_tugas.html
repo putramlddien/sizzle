@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+{% extends 'base_user.html' %}
+{% load static %}
+
+{% block body_block %}
+
+<div class="container mt-5">
+    <h1>Submit Tugas: {{ tugas.judul }}</h1>
+    <p class="card-text">{{ tugas.deskripsi }}</p>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="file">Upload File</label>
+            <input type="file" class="form-control" id="file" name="file">
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %}
+</html>
