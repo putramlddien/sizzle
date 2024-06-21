@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, KategoriTeknik, UserKursus, Pertemuan, KontenKursus, Tugas, Kuis, Bahan, UserKonten
+from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, KategoriTeknik, UserKursus, Pertemuan, KontenKursus, Tugas, Kuis, Bahan, UserKonten, Submission
 
 # Register your models here.sizzle123
 admin.site.register(Kursus)
@@ -7,6 +7,7 @@ admin.site.register(UserKursus)
 admin.site.register(Pertemuan)
 admin.site.register(KontenKursus)
 admin.site.register(Tugas)
+admin.site.register(Submission)
 admin.site.register(Kuis)
 admin.site.register(Bahan)
 admin.site.register(UserKonten)

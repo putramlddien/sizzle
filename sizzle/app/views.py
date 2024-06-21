@@ -1,22 +1,10 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
-from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis
+from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis, Submission
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from haystack.query import SearchQuerySet
-
-def search(request):
-    query = request.GET.get('q', '')
-    kursus_results = SearchQuerySet().models(Kursus).filter(content=query)
-    resep_results = SearchQuerySet().models(Resep).filter(content=query)
-    context = {
-        'kursus_results': kursus_results,
-        'resep_results': resep_results,
-        'query': query,
-    }
-    return render(request, 'search_results.html', context)
-
+from .forms import SubmissionForm
 
 def index(request):
     kursus_diskon_list = Kursus.objects.filter(harga_kursus__lte=50000)
@@ -120,15 +108,31 @@ def mark_konten_completed(request, id_konten):
     return redirect('detail_kursus_lms', id_kursus=konten.pertemuan.kursus.id)
 
 @login_required
-def submit_tugas(request, id_tugas):
-    tugas = get_object_or_404(Tugas, id=id_tugas)
-    if request.method == 'POST':
-        # Handle file upload for task submission
-        # file = request.FILES['file']
-        # Save file or handle submission
-        return redirect('detail_kursus_lms', id_kursus=tugas.pertemuan.kursus.id)
+def submit_tugas(request, tugas_id):
+    tugas = get_object_or_404(Tugas, id=tugas_id)
+    pertemuan = tugas.pertemuan  # Ambil pertemuan terkait dari tugas
+    submission = Submission.objects.filter(user=request.user, tugas=tugas).first()
 
-    return render(request, 'submit_tugas.html', {'tugas': tugas})
+    if request.method == 'POST':
+        form = SubmissionForm(request.POST, request.FILES, instance=submission)
+        if form.is_valid():
+            submission = form.save(commit=False)
+            submission.user = request.user
+            submission.tugas = tugas
+            submission.pertemuan = pertemuan
+            submission.save()
+            return redirect('submit_tugas', tugas_id=tugas.id)  # Tetap di halaman submit tugas
+    else:
+        form = SubmissionForm(instance=submission)
+    
+    return render(request, 'submit_tugas.html', {'form': form, 'tugas': tugas, 'submission': submission, 'pertemuan': pertemuan})
+
+@login_required
+def delete_submission(request, submission_id):
+    submission = get_object_or_404(Submission, id=submission_id, user=request.user)
+    tugas_id = submission.tugas.id
+    submission.delete()
+    return redirect('submit_tugas', tugas_id=tugas_id)
 
 @login_required
 def ambil_kuis(request, id_kuis):

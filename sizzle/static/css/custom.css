@@ -78,10 +78,10 @@ h5 {
 }
 
 .transparent-badge {
-  background-color: transparent !important; /* Menghilangkan background */
-  border: none; /* Menghilangkan border jika ada */
-  padding: 0; /* Sesuaikan padding jika diperlukan */
-  color: inherit; /* Memastikan warna teks tidak berubah */
+  background-color: transparent !important;
+  border: none;
+  padding: 0;
+  color: inherit;
   color: #FFFFFF;
 }
 
@@ -353,8 +353,91 @@ h5 {
   opacity: 1;
 }
 
+.accordion-button {
+  background-color: #198CD6;
+  color: #ffffff;
+  border: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 1rem;
+  transition: background 0.3s ease;
+}
+
+.accordion-button:hover, .accordion-button:focus {
+  background-color: #198CD6;
+  outline: none;
+}
+
+.accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background-color: #198CD6;
+}
+
+.accordion-item {
+  border: none;
+  margin-bottom: 1rem;
+  border-radius: 0.5rem;
+  overflow: hidden;
+}
 
 
 
+.accordion-body p {
+  margin-bottom: 0.5rem;
+}
+
+
+/* Nested Accordion Styling */
+.accordion .accordion-item .accordion-header .accordion-button {
+  font-size: 1rem;
+  background-color: #198CD6;
+  padding: 0.75rem 1rem;
+}
+
+.accordion .accordion-item .accordion-header .accordion-button:hover, 
+.accordion .accordion-item .accordion-header .accordion-button:focus {
+  background-color: #198CD6;
+}
+
+.accordion-body video {
+  width: 100%;
+  height: 500px;
+  border-radius: 0.5rem;
+  margin-top: 0.5rem;
+  box-shadow: 0 0 1rem rgba(0, 0, 0, 0.3);
+}
+
+
+.table {
+  width: 100%;
+  margin-bottom: 1rem;
+  color: #212529;
+  border-collapse: collapse;
+}
+
+.table th,
+.table td {
+  padding: 0.75rem;
+  vertical-align: top;
+  border-top: 1px solid #dee2e6;
+}
+
+.table th {
+  vertical-align: bottom;
+  border-bottom: 2px solid #dee2e6;
+  background-color: #f8f9fa;
+  color: #6c757d;
+}
+
+.table-bordered th,
+.table-bordered td {
+  border: 1px solid #dee2e6;
+}
+
+.form-label {
+  font-size: 1rem;
+  font-weight: bold;
+  margin-bottom: 0.5rem;
+}
 
 

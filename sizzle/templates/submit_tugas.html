@@ -1,21 +1,115 @@
-<!DOCTYPE html>
 {% extends 'base_user.html' %}
 {% load static %}
 
 {% block body_block %}
 
-<div class="container mt-5">
-    <h1>Submit Tugas: {{ tugas.judul }}</h1>
-    <p class="card-text">{{ tugas.deskripsi }}</p>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
-        <div class="form-group">
-            <label for="file">Upload File</label>
-            <input type="file" class="form-control" id="file" name="file">
+<div class="container">
+    <h2 class="font-1">Submit Tugas: {{ tugas.judul }}</h2>
+
+    {% if submission %}
+    <div class="alert alert-success mt-4 mb-4" role="alert">
+        Anda sudah submit tugas ini. Anda dapat menghapus lalu mengupload ulang submission Anda sebelum deadline.
+    </div>
+    {% endif %}
+    <div class="row">
+        <div class="col-12">
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th colspan="3" class="text-center">
+                            <h3>Assignment Submission</h3>
+                        </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% if submission %}
+                    <tr>
+                        <th scope="row">1</th>
+                        <td>Keterangan Tugas</td>
+                        <td>{{ tugas.deskripsi }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">2</th>
+                        <td>Deadline</td>
+                        <td>{{ tugas.deadline|date:"D, d M Y H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">3</th>
+                        <td>Waktu Kumpul</td>
+                        <td>{{ tugas.deadline_kumpul|date:"D, d M Y H:i" }}</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">4</th>
+                        <td>Link Tugas</td>
+                        <td>
+                            {% if submission.link %}
+                            <a href="{{ submission.link }}" class="text-body-emphasis">{{ submission.link }}</a>
+                            {% else %}
+                            <p class="text-muted">Belum diunggah</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <th scope="row">5</th>
+                        <td>File</td>
+                        <td>
+                            {% if submission.pdf %}
+                            <a href="{{ submission.pdf.url }}" class="text-body-emphasis">Lihat File</a>
+                            {% else %}
+                            <p class="text-muted">Belum diunggah</p>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="3" class="text-center">
+                            <a href="{% url 'delete_submission' submission.id %}" class="btn text-center">Hapus Submission</a>
+                        </td>
+                    </tr>
+                    {% else %}
+                    <tr>
+                        <td colspan="3">
+                            <form method="post" enctype="multipart/form-data">
+                                {% csrf_token %}
+                                <table class="table table-bordered">
+                                    <thead>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <th scope="row">1</th>
+                                            <td>Keterangan Tugas</td>
+                                            <td>{{ tugas.deskripsi }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">2</th>
+                                            <td>Deadline</td>
+                                            <td>{{ tugas.deadline|date:"D, d M Y H:i" }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">3</th>
+                                            <td>Link Tugas</td>
+                                            <td>{{ form.link }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th scope="row">4</th>
+                                            <td>File</td>
+                                            <td>{{ form.pdf }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td colspan="3" class="text-center">
+                                                <button type="submit" class="btn">Upload Tugas</button>
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                                
+                            </form>
+                        </td>
+                    </tr>
+                    {% endif %}
+                </tbody>
+            </table>
         </div>
-        <button type="submit" class="btn btn-primary">Submit</button>
-    </form>
+    </div>
 </div>
 
 {% endblock %}
-</html>

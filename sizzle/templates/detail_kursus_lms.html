@@ -4,138 +4,103 @@
 
 {% block body_block %}
 <div class="container">
-    <div class="row mb-4">
-        <div class="col-12">
-            <h2 class="font-1">{{ kursus.nama_kursus }}</h2>
-            <p class="fw-semibold">Chef: {{ kursus.chef }}</p>
-            <p>{{ kursus.deskripsi_singkat }}</p>
-        </div>
+  <div class="row mb-4">
+    <div class="col-12">
+      <h2 class="font-1">{{ kursus.nama_kursus }}</h2>
+      <p class="fw-semibold">Chef: {{ kursus.chef }}</p>
+      <p>{{ kursus.deskripsi_singkat }}</p>
     </div>
+  </div>
 
-    <div class="accordion" id="accordionExample">
-        {% for pertemuan in pertemuans %}
-        <div class="accordion-item">
-            <h2 class="accordion-header" id="heading{{ forloop.counter }}">
-                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %} font-1 fw-semibold" type="button"
-                    data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}"
-                    aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
-                    aria-controls="collapse{{ forloop.counter }}">
-                    Pertemuan {{ forloop.counter }} : {{ pertemuan.judul }}
+  <div class="accordion" id="accordionExample">
+    {% for pertemuan in pertemuans %}
+    <div class="accordion-item">
+      <h2 class="accordion-header" id="heading{{ forloop.counter }}">
+        <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button"
+          data-bs-toggle="collapse" data-bs-target="#collapse{{ forloop.counter }}"
+          aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+          aria-controls="collapse{{ forloop.counter }}">
+          Pertemuan {{ forloop.counter }}: {{ pertemuan.judul }}
+        </button>
+      </h2>
+      <div id="collapse{{ forloop.counter }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
+        data-bs-parent="#accordionExample">
+        <div class="accordion-body">
+          <p>{{ pertemuan.deskripsi }}</p>
+          <p class="mb-5">Tanggal: {{ pertemuan.tanggal }}</p>
+
+          <h4 class="font-1">Materi</h4>
+          <div class="accordion mb-4" id="nestedAccordion{{ forloop.counter }}">
+            {% for konten in pertemuan.konten_kursus.all %}
+            <div class="accordion-item">
+              <h2 class="accordion-header" id="nestedHeading{{ forloop.counter }}-{{ forloop.counter0 }}">
+                <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button"
+                  data-bs-toggle="collapse" data-bs-target="#nestedCollapse{{ forloop.counter }}-{{ forloop.counter0 }}"
+                  aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}"
+                  aria-controls="nestedCollapse{{ forloop.counter }}-{{ forloop.counter0 }}">
+                  {{ konten.judul }}
                 </button>
-            </h2>
-            <div id="collapse{{ forloop.counter }}"
+              </h2>
+              <div id="nestedCollapse{{ forloop.counter }}-{{ forloop.counter0 }}"
                 class="accordion-collapse collapse {% if forloop.first %}show{% endif %}"
-                aria-labelledby="heading{{ forloop.counter }}" data-bs-parent="#accordionExample">
+                data-bs-parent="#nestedAccordion{{ forloop.counter }}">
                 <div class="accordion-body">
-                    <h4 class="font-1">{{ pertemuan.judul }}</h4>
-                    <p>{{ pertemuan.deskripsi }}</p>
-                    <p class="fw-semibold">Tanggal : {{ pertemuan.tanggal }}</p>
-
-
-                    <div class="row">
-                        {% for konten in pertemuan.konten_kursus.all %}
-                        <div class="col-md-12 mb-4">
-                            <div class="accordion" id="accordionExample">
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header">
-                                    <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
-                                      Accordion Item #1
-                                    </button>
-                                  </h2>
-                                  <div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                      <strong>This is the first item's accordion body.</strong> It is shown by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
-                                      Accordion Item #2
-                                    </button>
-                                  </h2>
-                                  <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                      <strong>This is the second item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="accordion-item">
-                                  <h2 class="accordion-header">
-                                    <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
-                                      Accordion Item #3
-                                    </button>
-                                  </h2>
-                                  <div id="collapseThree" class="accordion-collapse collapse" data-bs-parent="#accordionExample">
-                                    <div class="accordion-body">
-                                      <strong>This is the third item's accordion body.</strong> It is hidden by default, until the collapse plugin adds the appropriate classes that we use to style each element. These classes control the overall appearance, as well as the showing and hiding via CSS transitions. You can modify any of this with custom CSS or overriding our default variables. It's also worth noting that just about any HTML can go within the <code>.accordion-body</code>, though the transition does limit overflow.
-                                    </div>
-                                  </div>
-                                </div>
-                              </div>
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="font-1">{{ konten.judul }}</h4>
-                                    <video src="{{ konten.video.url }}" controls class="card-img-top"></video>
-                                    <p class="card-text">{{ konten.deskripsi }}</p>
-                                    <a href="{{ konten.pdf.url }}" class="btn btn-primary">Download Materi PDF</a>
-                                    <form method="post" action="{% url 'mark_konten_completed' konten.id %}"><br>
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-success">Tandai Selesai</button>
-                                    </form>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-
-                    <div class="row">
-                        <div class="col-md-12 mb-4">
-                            <div class="card">
-                                <div class="card-body">
-                                    <h4 class="font-1">Bahan Tugas</h4>
-                                    <ul class="list-group">
-                                        {% for bahan in pertemuan.resep_bahan.all %}
-                                        <li class="list-group-item d-flex justify-content-between align-items-center">
-                                            {{ bahan.nama }}
-                                            <span class="badge text-bg-primary rounded-pill">{{ bahan.jumlah }}</span>
-                                        </li>
-                                        {% endfor %}
-                                    </ul>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="row mb-4">
-                        {% for tugas in pertemuan.tugas_set.all %}
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body d-flex align-items-center justify-content-between">
-                                    <h4 class="font-1 mb-0">{{ tugas.judul }}</h4>
-                                    <a href="{% url 'submit_tugas' tugas.id %}" class="btn btn-primary">Submit Tugas</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-
-                        {% for kuis in pertemuan.kuis_set.all %}
-                        <div class="col-md-6">
-                            <div class="card">
-                                <div class="card-body d-flex align-items-center justify-content-between">
-                                    <h4 class="font-1 mb-0">{{ kuis.judul }}</h4>
-                                    <a href="{% url 'ambil_kuis' kuis.id %}" class="btn btn-primary">Mulai Kuis</a>
-                                </div>
-                            </div>
-                        </div>
-                        {% endfor %}
-                    </div>
-
+                  <video src="{{ konten.video.url }}" controls class="card-img-top"></video>
+                  <p class="card-text mt-4 mb-4">{{ konten.deskripsi }}</p>
+                  <a href="{{ konten.pdf.url }}" class="btn btn-primary">Download Materi PDF</a>
                 </div>
+              </div>
             </div>
+            {% endfor %}
+          </div>
+
+          <div class="row">
+            <div class="col-md-12 mb-4">
+              <div class="card">
+                <div class="card-body">
+                  <h4 class="font-1">Bahan Tugas</h4>
+                  <ul class="list-group">
+                    {% for bahan in pertemuan.resep_bahan.all %}
+                    <li class="list-group-item d-flex justify-content-between align-items-center">
+                      {{ bahan.nama }}
+                      <span class="badge rounded-pill" style="background-color: rgb(218, 66, 49);">{{ bahan.jumlah }}</span>
+                    </li>
+                    {% endfor %}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row mb-4">
+            {% for tugas in pertemuan.tugas_set.all %}
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                  <h4 class="font-1 mb-0">{{ tugas.judul }}</h4>
+                  <a href="{% url 'submit_tugas' tugas.id %}" class="btn">Submit Tugas</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+
+            {% for kuis in pertemuan.kuis_set.all %}
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-body d-flex align-items-center justify-content-between">
+                  <h4 class="font-1 mb-0">{{ kuis.judul }}</h4>
+                  <a href="{% url 'ambil_kuis' kuis.id %}" class="btn">Mulai Kuis</a>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
         </div>
-        {% endfor %}
+      </div>
     </div>
+    {% endfor %}
+  </div>
+
 
 
 

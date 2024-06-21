@@ -85,7 +85,7 @@ section.head-banner {
   left: 0;
   right: 0;
   overflow: hidden;
-  margin-top: -280px;
+  margin-top: -285px;
   z-index: -2;
 }
 
@@ -102,7 +102,7 @@ section.head-banner > img {
     width: 100%;
     min-height: 250px;
     overflow: hidden;
-    margin-top: -150px;
+    margin-top: -120px;
     /* z-index: -1; */
     display: flex;
     justify-content: center;
@@ -187,14 +187,14 @@ section.head-banner > img {
   color: #ffffff;
   font-family: var(--Poppins);
   display: inline-block;
-  padding: 0.75rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 550;
-  line-height: 1.1;
+  padding: 0.75rem 1.2rem;
+  font-size: 0.9rem;
+  font-weight: 500;
+  line-height: 1.5;
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
-  border-radius: 0.75rem;
+  border-radius: 0.7rem;
   cursor: pointer;
   transition: background-color 0.3s ease, color 0.3s ease;
   border: none;
@@ -202,8 +202,8 @@ section.head-banner > img {
 }
 
 .btn:hover {
-  background-color: #ffffff;
-  color: #fba834;
+  background-color: #198cd6;
+  color: #ffffff;
 }
 
 .second-btn {
@@ -288,23 +288,6 @@ section.head-banner > img {
   }
 }
 
-.kursus-section {
-  background: linear-gradient(#198ed600 0%, #198ed6 50%, #198ed600 100%);
-}
-
-.resep-section {
-  background: linear-gradient(#198ed6 0%, #198ed6 80%, #198ed6 100%);
-  margin-top: -58px;
-}
-
-.teknik-section {
-  background: linear-gradient(#198ed6 0%, #198ed6 50%, #198ed600 100%);
-  margin-top: -100px;
-}
-
-.artikel-section {
-  background: linear-gradient(#198ed6 0%, #198ed6 90%, #198ed600 100%);
-}
 
 .wave {
   max-width: 100%;

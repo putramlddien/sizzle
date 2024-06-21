@@ -66,6 +66,17 @@ class Tugas(models.Model):
 
     def __str__(self):
         return self.judul
+    
+class Submission(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    tugas = models.ForeignKey(Tugas, related_name='submissions', on_delete=models.CASCADE)
+    pertemuan = models.ForeignKey(Pertemuan, related_name='submissions', on_delete=models.CASCADE)
+    link = models.URLField(blank=True, null=True)
+    pdf = models.FileField(upload_to='submissions/', blank=True, null=True)
+    submitted_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"Submission by {self.user.username} for {self.tugas.judul}"
 
 class Kuis(models.Model):
     pertemuan = models.ForeignKey(Pertemuan, related_name='kuis_set', on_delete=models.CASCADE)

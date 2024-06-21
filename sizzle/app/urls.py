@@ -3,14 +3,14 @@ from django.urls import path
 from app import views
 from django.conf import settings
 from django.conf.urls.static import static
-from .views import search
 
 urlpatterns = [
     path('', views.index, name='index'),
     path('kursus/<int:id_kursus>/', views.detail_kursus, name='detail_kursus'),
     path('detail_kursus_lms/<int:id_kursus>/', views.detail_kursus_lms, name='detail_kursus_lms'),
     path('mark_konten_completed/<int:id_konten>/', views.mark_konten_completed, name='mark_konten_completed'),
-    path('submit_tugas/<int:id_tugas>/', views.submit_tugas, name='submit_tugas'),
+    path('submit_tugas/<int:tugas_id>/', views.submit_tugas, name='submit_tugas'),
+    path('delete_submission/<int:submission_id>/', views.delete_submission, name='delete_submission'),
     path('ambil_kuis/<int:id_kuis>/', views.ambil_kuis, name='ambil_kuis'),
     path('kursus/<int:id_kursus>/daftar/', views.daftar_kursus, name='daftar_kursus'),
     path('kelas-saya/', views.kelas_saya, name='kelas_saya'),
@@ -28,7 +28,6 @@ urlpatterns = [
     path('kelas_saya/', views.kelas_saya, name='kelas_saya'),
     path('nilai_kuis/', views.nilai_kuis, name='nilai_kuis'),
     path('nilai_tugas/', views.nilai_tugas, name='nilai_tugas'),
-    path('search/', search, name='search'),
     path('admin/', admin.site.urls),
 ]
 
