@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
+{% load custom_filters %}
 
 {% block body_block %}
 
@@ -139,10 +140,18 @@
       </div>
     </div>
   </div>
+
+  <div id="disqus_thread"></div>
 </div>
 </div>
 
 </div>
+<script>
+  var disqus_config = function () {
+    this.page.url = getDynamicPageUrl();
+    this.page.identifier = "{{ resep.kategori_resep|concat_slug:resep.nama_resep }}";
+  };
+</script>
 {% endblock %}
 
 </html>
