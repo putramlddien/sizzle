@@ -3,12 +3,7 @@ document.addEventListener("DOMContentLoaded", () => {
   const headBanner = document.querySelector("section.head-banner");
   const navbar = document.querySelector(".navbar");
   const hamburger = document.querySelector(".navbar-toggler");
-  const screenSize = window.matchMedia("(max-width: 767px)");
   let isHeaderColored = false;
-
-  if (screenSize.matches) {
-    // navbar.style.backgroundColor = "#198CD6";
-  }
 
   window.addEventListener("scroll", () => {
     const scrollPosition = window.scrollY;
@@ -44,3 +39,16 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   }
 });
+
+function getDynamicPageUrl() {
+  console.log(window.location.href);
+  return window.location.href;
+}
+
+(function () {
+  var d = document,
+    s = d.createElement("script");
+  s.src = "https://sizzle-2.disqus.com/embed.js";
+  s.setAttribute("data-timestamp", +new Date());
+  (d.head || d.body).appendChild(s);
+})();
