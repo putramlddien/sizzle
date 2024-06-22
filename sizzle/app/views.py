@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden
-from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis, Submission
+from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis, Submission, Kuis, Pertanyaan, Pilihan, HasilKuis
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from .forms import SubmissionForm
+from .forms import SubmissionForm, KuisForm
+from django.utils import timezone
 
 def index(request):
     kursus_diskon_list = Kursus.objects.filter(harga_kursus__lte=50000)
@@ -110,7 +111,7 @@ def mark_konten_completed(request, id_konten):
 @login_required
 def submit_tugas(request, tugas_id):
     tugas = get_object_or_404(Tugas, id=tugas_id)
-    pertemuan = tugas.pertemuan  # Ambil pertemuan terkait dari tugas
+    pertemuan = tugas.pertemuan 
     submission = Submission.objects.filter(user=request.user, tugas=tugas).first()
 
     if request.method == 'POST':
@@ -121,7 +122,7 @@ def submit_tugas(request, tugas_id):
             submission.tugas = tugas
             submission.pertemuan = pertemuan
             submission.save()
-            return redirect('submit_tugas', tugas_id=tugas.id)  # Tetap di halaman submit tugas
+            return redirect('submit_tugas', tugas_id=tugas.id)
     else:
         form = SubmissionForm(instance=submission)
     
@@ -135,13 +136,48 @@ def delete_submission(request, submission_id):
     return redirect('submit_tugas', tugas_id=tugas_id)
 
 @login_required
-def ambil_kuis(request, id_kuis):
-    kuis = get_object_or_404(Kuis, id=id_kuis)
-    if request.method == 'POST':
-        # Handle quiz submission
-        return redirect('detail_kursus_lms', id_kursus=kuis.pertemuan.kursus.id)
+def kuis_detail(request, kuis_id):
+    kuis = get_object_or_404(Kuis, id=kuis_id)
+    user = request.user
 
-    return render(request, 'ambil_kuis.html', {'kuis': kuis})
+    if HasilKuis.objects.filter(user=user, kuis=kuis).exists():
+        return redirect('kuis_hasil', kuis_id=kuis.id)
+
+    pertanyaan_set = kuis.pertanyaan_set.all()
+
+    if request.method == 'POST':
+        form = KuisForm(request.POST, pertanyaan_set=pertanyaan_set)
+        if form.is_valid():
+            skor = 0
+            for i, pertanyaan in enumerate(pertanyaan_set):
+                pilihan_id = form.cleaned_data[f'pertanyaan_{i}']
+                pilihan = get_object_or_404(Pilihan, id=pilihan_id)
+                if pilihan.benar:
+                    skor += 1
+            skor_total = (skor / len(pertanyaan_set)) * 100
+            HasilKuis.objects.create(user=user, kuis=kuis, skor=skor_total)
+            return redirect('kuis_hasil', kuis_id=kuis.id)
+    else:
+        form = KuisForm(pertanyaan_set=pertanyaan_set)
+
+    context = {
+        'kuis': kuis,
+        'form': form,
+    }
+    return render(request, 'kuis_detail.html', context)
+
+@login_required
+def kuis_hasil(request, kuis_id):
+    kuis = get_object_or_404(Kuis, id=kuis_id)
+    hasil = get_object_or_404(HasilKuis, user=request.user, kuis=kuis)
+    kursus_id = kuis.pertemuan.kursus.id_kursus
+
+    context = {
+        'kuis': kuis,
+        'hasil': hasil,
+        'kursus_id': kursus_id,
+    }
+    return render(request, 'kuis_hasil.html', context)
 
 
 def resep(request):

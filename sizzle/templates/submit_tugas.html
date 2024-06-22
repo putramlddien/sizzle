@@ -1,3 +1,4 @@
+<!DOCTYPE html>
 {% extends 'base_user.html' %}
 {% load static %}
 
@@ -13,11 +14,11 @@
     {% endif %}
     <div class="row">
         <div class="col-12">
-            <table class="table table-bordered">
+            <table class="table table-bordered mt-3">
                 <thead>
                     <tr>
                         <th colspan="3" class="text-center">
-                            <h3>Assignment Submission</h3>
+                            <h3 class="font-1">Assignment Submission</h3>
                         </th>
                     </tr>
                 </thead>
@@ -35,8 +36,8 @@
                     </tr>
                     <tr>
                         <th scope="row">3</th>
-                        <td>Waktu Kumpul</td>
-                        <td>{{ tugas.deadline_kumpul|date:"D, d M Y H:i" }}</td>
+                        <td>Waktu Pengumpulan</td>
+                        <td>{{ submission.submitted_at|date:"D, d M Y H:i" }}</td>
                     </tr>
                     <tr>
                         <th scope="row">4</th>
@@ -61,7 +62,7 @@
                         </td>
                     </tr>
                     <tr>
-                        <td colspan="3" class="text-center">
+                        <td colspan="3" class="text-center mt-3">
                             <a href="{% url 'delete_submission' submission.id %}" class="btn text-center">Hapus Submission</a>
                         </td>
                     </tr>
@@ -101,7 +102,6 @@
                                         </tr>
                                     </tbody>
                                 </table>
-                                
                             </form>
                         </td>
                     </tr>
@@ -113,3 +113,4 @@
 </div>
 
 {% endblock %}
+</html>

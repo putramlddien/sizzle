@@ -1,5 +1,6 @@
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils import timezone
 
 class KategoriKursus(models.Model):
     id_kategori_kursus = models.AutoField(primary_key=True)
@@ -85,6 +86,29 @@ class Kuis(models.Model):
 
     def __str__(self):
         return self.judul
+
+class Pertanyaan(models.Model):
+    kuis = models.ForeignKey(Kuis, related_name='pertanyaan_set', on_delete=models.CASCADE)
+    teks = models.TextField()
+
+    def __str__(self):
+        return self.teks
+
+class Pilihan(models.Model):
+    pertanyaan = models.ForeignKey(Pertanyaan, related_name='pilihan_set', on_delete=models.CASCADE)
+    teks = models.CharField(max_length=200)
+    benar = models.BooleanField(default=False)
+
+    def __str__(self):
+        return self.teks
+
+class HasilKuis(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    kuis = models.ForeignKey(Kuis, on_delete=models.CASCADE)
+    skor = models.IntegerField()
+
+    def __str__(self):
+        return f"{self.user.username} - {self.kuis.judul} - {self.skor}"
 
 class Bahan(models.Model):
     pertemuan = models.ForeignKey(Pertemuan, related_name='resep_bahan', on_delete=models.CASCADE)

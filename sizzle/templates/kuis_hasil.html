@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+{% extends 'base_user.html' %}
+{% load static %}
+
+{% block body_block %}
+<div class="container mt-5">
+    <div class="text-center rounded-5"">
+        <h1 class="font-1 mb-5">{{ kuis.judul }}</h1>
+        <h1 class="col-lg-8 mx-auto text-muted mb-5">
+            {{ hasil.skor }} dari 100
+        </h1>
+        <div class="d-inline-flex gap-2 mb-5">
+            <a href="{% url 'detail_kursus_lms' kursus_id %}" class="btn">Kembali</a>
+            <a href="{% url 'detail_kursus_lms' kursus_id %}" class="second-btn">Lihat Daftar Nilai</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
