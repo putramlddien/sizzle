@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+{% extends 'base.html' %}
+{% load static %}
+
+{% block body_block %}
+<title>Sizzle - {{ artikel.judul_artikel }}</title>
+
+<main class="container">
+
+    <div class="row g-5">
+        <div class="col-md-8">
+            <article class="blog-post mb-5">
+                <h1 class="font-1 mb-1">{{ artikel.judul_artikel }}</h1>
+                <p class="blog-post-meta mt-3">
+                    <strong>{{ artikel.kategori_artikel|upper }}, </strong> 
+                    {{ artikel.tanggal_upload|date:"Y-m-d" }} by <a class="font-1 text-decoration-none">{{ artikel.penulis }}</a>
+                </p>
+
+                <div class="position-relative mb-4 mt-4">
+                    {% if artikel.gambar_artikel %}
+                    <img src="{{ artikel.gambar_artikel.url }}" alt="{{ artikel.judul_artikel }}" class="img-fluid rounded-4" style="width: 100%; height: 350px; object-fit: cover;">
+                    {% else %}
+                    <img src="{% static 'images/sizzle-logo.svg' %}" alt="Default Image" class="img-fluid">
+                    {% endif %}
+                </div>
+
+                <p>
+                    <strong class="d-inline-block text-success-emphasis">{{ artikel.region|upper }}</strong>
+                    {{ artikel.isi_artikel|linebreaks }}
+                </p>
+            </article>
+        </div>
+
+        <div class="col-md-4">
+            <div class="position-sticky" style="top: 7rem;">
+
+                <div>
+                    <h4 class="fst-italic">Postingan Terbaru</h4>
+                    <ul class="list-unstyled">
+                        {% for recent_artikel in recent_artikels %}
+                        <li>
+                            <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{% url 'detail_artikel' recent_artikel.id_artikel %}">
+                                <img src="{{ recent_artikel.gambar_artikel.url }}" style="width: 100px; height: 100px;">
+                                <div class="col-lg-8">
+                                    <h6 class="mb-0">{{ recent_artikel.judul_artikel }}</h6>
+                                    <small class="text-body-secondary">{{ recent_artikel.tanggal_upload|date:"Y-m-d" }}</small>
+                                </div>
+                            </a>
+                        </li>
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</main>
+{% endblock %}
+</html>

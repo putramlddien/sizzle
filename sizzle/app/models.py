@@ -39,6 +39,16 @@ class UserKursus(models.Model):
         return f"{self.user.username} - {self.kursus.nama_kursus}"
     
 
+class UserProfile(models.Model):
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    jenis_kelamin = models.CharField(null=True, blank=True, max_length=10, choices=[('M', 'Male'), ('F', 'Female')])
+    tanggal_lahir = models.DateField(null=True, blank=True)
+    alamat = models.TextField(null=True, blank=True)
+    foto_profile = models.ImageField(upload_to='user_profile', null=True, blank=True)
+
+    def __str__(self):
+        return self.user.username
+    
 
 class Pertemuan(models.Model):
     kursus = models.ForeignKey(Kursus, related_name='pertemuans', on_delete=models.CASCADE)

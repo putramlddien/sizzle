@@ -1,5 +1,6 @@
 from django import forms
-from .models import Submission, Pilihan
+from django.contrib.auth.models import User
+from .models import Submission, UserProfile
 
 class SubmissionForm(forms.ModelForm):
     class Meta:
@@ -22,3 +23,17 @@ class KuisForm(forms.Form):
                 widget=forms.RadioSelect,
                 required=True
             )
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        fields = ['first_name', 'last_name', 'username']
+    
+    def __init__(self, *args, **kwargs):
+        super(UserForm, self).__init__(*args, **kwargs)
+        self.fields['username'].widget.attrs['disabled'] = 'disabled'
+
+class UserProfileForm(forms.ModelForm):
+    class Meta:
+        model = UserProfile
+        fields = ['jenis_kelamin', 'tanggal_lahir', 'alamat', 'foto_profile']

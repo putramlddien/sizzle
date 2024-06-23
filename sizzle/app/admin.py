@@ -1,9 +1,14 @@
 from django.contrib import admin
-from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, KategoriTeknik, UserKursus, Pertemuan, KontenKursus, Tugas, Kuis, Bahan, UserKonten, Submission, Kuis, Pertanyaan, Pilihan, HasilKuis
+from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, KategoriTeknik, UserProfile, UserKursus, Pertemuan, KontenKursus, Tugas, Kuis, Bahan, UserKonten, Submission, Kuis, Pertanyaan, Pilihan, HasilKuis
 
-# Register your models here.sizzle123
+
+class UserProfileAdmin(admin.ModelAdmin):
+    list_display = ['user', 'jenis_kelamin', 'tanggal_lahir', 'alamat']
+
+
 admin.site.register(Kursus)
 admin.site.register(UserKursus)
+admin.site.register(UserProfile, UserProfileAdmin)
 admin.site.register(Pertemuan)
 admin.site.register(KontenKursus)
 admin.site.register(Tugas)

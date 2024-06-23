@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse, HttpResponseForbidden
+from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis, Submission, Kuis, Pertanyaan, Pilihan, HasilKuis
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
-from .forms import SubmissionForm, KuisForm
+from .forms import SubmissionForm, KuisForm, UserForm, UserProfileForm
 from django.utils import timezone
+
 
 def index(request):
     kursus_diskon_list = Kursus.objects.filter(harga_kursus__lte=50000)
@@ -51,6 +53,25 @@ def detail_kursus(request, id_kursus):
         'kursus': kursus,
     }
     return render(request, 'detail_kursus.html', context)
+
+@login_required
+def profile(request):
+    if request.method == 'POST':
+        user_form = UserForm(request.POST, instance=request.user)
+        profile_form = UserProfileForm(request.POST, request.FILES, instance=request.user.userprofile)
+        if user_form.is_valid() and profile_form.is_valid():
+            user_form.save()
+            profile_form.save()
+            return redirect('profile')
+    else:
+        user_form = UserForm(instance=request.user)
+        profile_form = UserProfileForm(instance=request.user.userprofile)
+    
+    context = {
+        'user_form': user_form,
+        'profile_form': profile_form
+    }
+    return render(request, 'profile.html', context)
 
 @login_required
 def daftar_kursus(request, id_kursus):
@@ -196,6 +217,7 @@ def resep(request):
     return render(request, 'resep.html', context)
 
 
+
 def detail_resep(request, id_resep):
     resep = get_object_or_404(Resep, id_resep=id_resep)
     bahan_list = resep.bahan.split('\n')
@@ -295,3 +317,12 @@ def artikel(request):
     edukasi = Artikel.objects.filter(kategori_artikel='edukasi')
     artikel = Artikel.objects.filter(kategori_artikel='artikel')
     return render(request, 'artikel.html', {'food_art': art, 'edukasi': edukasi, 'artikel': artikel})
+
+def detail_artikel(request, id):
+    artikel = get_object_or_404(Artikel, id_artikel=id)
+    recent_artikels = Artikel.objects.order_by('-tanggal_upload')[:6]
+    return render(request, 'detail_artikel.html', {
+        'artikel': artikel,
+        'recent_artikels': recent_artikels
+    })
+

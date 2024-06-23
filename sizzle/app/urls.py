@@ -26,9 +26,11 @@ urlpatterns = [
     path('base_user/', views.base_user, name='base_user'),
     path('teknik-memasak/<str:kategori>/', views.teknik_memasak, name='teknik_memasak'),
     path('artikel/', views.artikel, name='artikel'),
+    path('artikel/<int:id>/', views.detail_artikel, name='detail_artikel'),
     path('kelas_saya/', views.kelas_saya, name='kelas_saya'),
     path('nilai_kuis/', views.nilai_kuis, name='nilai_kuis'),
     path('nilai_tugas/', views.nilai_tugas, name='nilai_tugas'),
+    path('profile/', views.profile, name='profile'),
     path('admin/', admin.site.urls),
 ]
 
