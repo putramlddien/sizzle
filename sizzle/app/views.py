@@ -347,3 +347,5 @@ def detail_artikel(request, id):
         'recent_artikels': recent_artikels
     })
 
+def halamanku(request):
+    return render(request, 'halamanku.html')

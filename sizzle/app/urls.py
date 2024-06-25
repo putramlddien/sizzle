@@ -31,6 +31,7 @@ urlpatterns = [
     path('nilai_kuis/', views.nilai_kuis, name='nilai_kuis'),
     path('nilai_tugas/', views.nilai_tugas, name='nilai_tugas'),
     path('profile/', views.profile, name='profile'),
+    path('halamanku/', views.halamanku, name='halamanku'),
     path('admin/', admin.site.urls),
 ]
 
