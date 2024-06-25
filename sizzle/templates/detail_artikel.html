@@ -8,7 +8,7 @@
 <main class="container">
 
     <div class="row g-5">
-        <div class="col-md-8">
+        <div class="col-md-8 mb-5">
             <article class="blog-post mb-5">
                 <h1 class="font-1 mb-1">{{ artikel.judul_artikel }}</h1>
                 <p class="blog-post-meta mt-3">
@@ -31,7 +31,7 @@
             </article>
         </div>
 
-        <div class="col-md-4">
+        <div class="col-md-4 mb-5">
             <div class="position-sticky" style="top: 7rem;">
 
                 <div>
@@ -40,7 +40,7 @@
                         {% for recent_artikel in recent_artikels %}
                         <li>
                             <a class="d-flex flex-column flex-lg-row gap-3 align-items-start align-items-lg-center py-3 link-body-emphasis text-decoration-none border-top" href="{% url 'detail_artikel' recent_artikel.id_artikel %}">
-                                <img src="{{ recent_artikel.gambar_artikel.url }}" style="width: 100px; height: 100px;">
+                                <img src="{{ recent_artikel.gambar_artikel.url }}" style="width: 100px; height: 100px; object-fit: cover;">
                                 <div class="col-lg-8">
                                     <h6 class="mb-0">{{ recent_artikel.judul_artikel }}</h6>
                                     <small class="text-body-secondary">{{ recent_artikel.tanggal_upload|date:"Y-m-d" }}</small>

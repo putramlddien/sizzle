@@ -378,7 +378,7 @@ div.question-wrapper > fieldset {
 }
 div.question-wrapper > fieldset > legend {
   font-family: var(--Poppins);
-  font-weight: bold;
+  font-weight: 400;
   margin-bottom: 1em;
 }
 div.question-wrapper > fieldset > div.checkbox-wrapper {
@@ -386,7 +386,7 @@ div.question-wrapper > fieldset > div.checkbox-wrapper {
   flex-direction: row;
   justify-content: flex-start;
   flex-wrap: wrap;
-  gap: 2em 4em;
+  gap: 1.5em 2em;
   /* background-color: salmon; */
 }
 div.question-wrapper > fieldset > div.checkbox-wrapper > label {
@@ -397,9 +397,9 @@ div.question-wrapper > fieldset > div.checkbox-wrapper > label {
   min-width: 40%;
   background-color: #f6f6f6;
   padding: 0.7em;
-  border-radius: 10px;
-  font-size: 1.5em;
-  font-weight: 800;
+  border-radius: 13px;
+  font-size: 1.1em;
+  font-weight: 600;
   font-family: var(--Poppins);
   border: 1px solid rgba(0, 0, 0, 0.4);
 }

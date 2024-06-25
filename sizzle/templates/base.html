@@ -55,11 +55,12 @@
                         {{ request.user.first_name|upper }} {{ request.user.last_name|upper }}
                     </a>
                     <ul class="dropdown-menu text-start">
-                        <li><a class="dropdown-item" href="{% url 'profile' %}"><i class="bi bi-person-circle"> </i> Profil</a></li>
+                        <li><a class="dropdown-item mb-2" href="{% url 'profile' %}"><i class="bi bi-person-circle"> </i> Profil</a></li>
+                        <li><a class="dropdown-item mb-2" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-star"></i> </i> Favorit</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'kelas_saya' %}"><i class="bi bi-journals"></i> Kelas Saya</a></li>
+                        <li><a class="dropdown-item mb-2" href="{% url 'kelas_saya' %}"><i class="bi bi-journals"></i> Kelas Saya</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left"></i> Keluar</a></li>
+                        <li><a class="dropdown-item mb-2" href="{% url 'logout' %}"><i class="bi bi-box-arrow-left"></i> Keluar</a></li>
                     </ul>                    
                 </div>
                 {% else %}
@@ -79,7 +80,27 @@
   </section>
 
 
-    <div class="content">
+<!-- Modals untuk menampilkan resep yang disimpan -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-scrollable">
+      <div class="modal-content">
+          <div class="modal-header">
+              <h1 class="modal-title fs-5" id="exampleModalLabel">Resep Tersimpan</h1>
+              <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+          <div class="modal-body">
+              {% for ur in user_resep %}
+                  <p>{{ ur.resep.nama_resep }}</p>
+              {% empty %}
+                  <p>Belum ada resep yang disimpan.</p>
+              {% endfor %}
+          </div>
+          <div class="modal-footer">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+      </div>
+  </div>
+</div>
 
 
         {% block body_block %}

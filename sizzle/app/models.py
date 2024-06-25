@@ -39,6 +39,7 @@ class UserKursus(models.Model):
         return f"{self.user.username} - {self.kursus.nama_kursus}"
     
 
+
 class UserProfile(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     jenis_kelamin = models.CharField(null=True, blank=True, max_length=10, choices=[('M', 'Male'), ('F', 'Female')])
@@ -161,7 +162,14 @@ class Resep(models.Model):
 
     def __str__(self):
         return self.nama_resep
+    
 
+class UserResep(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    resep = models.ForeignKey(Resep, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return f"{self.user.username} - {self.resep.nama_resep}"
 
 class Artikel(models.Model):
     id_artikel = models.AutoField(primary_key=True)

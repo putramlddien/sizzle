@@ -3,12 +3,29 @@
 {% load static %}
 
 {% block body_block %}
-<div class="container mt-5">
-    <h2>{{ kuis.judul }}</h2>
+
+<div class="container quiz-container mt-5">
+    <h2 class="quiz-part">{{ kuis.judul }}</h2>
     <form method="post">
         {% csrf_token %}
-        {{ form.as_p }}
+        <div class="question-wrapper">
+            {% for field in form %}
+                <fieldset>
+                    <legend class="soal">{{ field.label }}</legend>
+                    <div class="checkbox-wrapper mb-5">
+                        {% for widget in field %}
+                            <label>
+                                {{ widget.tag }}
+                                {{ widget.choice_label }}
+                            </label>
+                        {% endfor %}
+                    </div>
+                </fieldset>
+            {% endfor %}
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>
+
 {% endblock %}
+</html>

@@ -1,55 +1,53 @@
-<!DOCTYPE html>
 {% extends 'base.html' %}
 {% load static %}
 
 {% block body_block %}
-<div class="container mt-5 mb-5">
-    <h2>Edit Profile</h2>
-    <form method="post" enctype="multipart/form-data">
-        {% csrf_token %}
+<title>Sizzle - Profil</title>
 
-        <div class="row">
-            <div class="col-6">
-                <div class="form-group">
-                    <label for="first_name">First Name:</label>
-                    <input type="text" class="form-control" id="first_name" name="first_name" value="{{ user_form.first_name.value }}">
-                </div>
-                <div class="form-group">
-                    <label for="last_name">Last Name:</label>
-                    <input type="text" class="form-control" id="last_name" name="last_name" value="{{ user_form.last_name.value }}">
-                </div>
+<div class="container mb-5 mt-5">
+<h2 class="mb-4">Profil Pengguna</h2>
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    <div class="row">
+        <div class="col-6">
+            <div class="form-group">
+                <label for="first_name">First Name:</label>
+                <input type="text" class="form-control mt-2 mb-3" id="first_name" name="first_name" value="{{ user_form.first_name.value }}">
             </div>
-            <div class="col-6">
-                <div class="form-group">
-            <label for="jenis_kelamin">Jenis Kelamin:</label>
-            <select class="form-control" id="jenis_kelamin" name="jenis_kelamin">
-                <option value="M" {% if profile_form.jenis_kelamin.value == "M" %}selected{% endif %}>Male</option>
-                <option value="F" {% if profile_form.jenis_kelamin.value == "F" %}selected{% endif %}>Female</option>
-            </select>
-        </div>
-        <div class="form-group">
-            <label for="tanggal_lahir">Tanggal Lahir:</label>
-            <input type="date" class="form-control" id="tanggal_lahir" name="tanggal_lahir" value="{{ profile_form.tanggal_lahir.value }}">
-        </div>
-        <div class="form-group">
-            <label for="alamat">Alamat:</label>
-            <textarea class="form-control" id="alamat" name="alamat">{{ profile_form.alamat.value }}</textarea>
-        </div>
-        <div class="form-group">
-            <label for="foto_profile">Foto Profil:</label>
-            <input type="file" class="form-control" id="foto_profile" name="foto_profile">
-        </div>
-
+            <div class="form-group">
+                <label for="last_name">Last Name:</label>
+                <input type="text" class="form-control mt-2 mb-3" id="last_name" name="last_name" value="{{ user_form.last_name.value }}">
+            </div>
+            <div class="form-group">
+                <label for="jenis_kelamin">Jenis Kelamin:</label>
+                <select class="form-control mt-2 mb-3" id="jenis_kelamin" name="jenis_kelamin">
+                    <option value="M" {% if profile_form.jenis_kelamin.value == "M" %}selected{% endif %}>Male</option>
+                    <option value="F" {% if profile_form.jenis_kelamin.value == "F" %}selected{% endif %}>Female</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="tanggal_lahir">Tanggal Lahir:</label>
+                <input type="date" class="form-control mt-2 mb-3" id="tanggal_lahir" name="tanggal_lahir" value="{{ profile_form.instance.tanggal_lahir }}">
             </div>
         </div>
-        
-        
-        
-        
-        
-        <button type="submit" class="btn btn-primary">Simpan</button>
-    </form>
+        <div class="col-6">
+            <div class="form-group">
+                <label for="alamat">Alamat:</label>
+                <textarea class="form-control mt-2 mb-3" id="alamat" name="alamat">{{ profile_form.alamat.value }}</textarea>
+            </div>
+            <div class="form-group">
+                <label for="foto_profile">Foto Profil:</label>
+                <input type="file" class="form-control mt-2 mb-3" id="foto_profile" name="foto_profile">
+                {% if profile_form.instance.foto_profile %}
+                    <img src="{{ profile_form.instance.foto_profile.url }}" alt="Foto Profil" class="img-thumbnail mt-3" style="max-width: 150px;">
+                {% else %}
+                    <img src="{% static 'images/sizzle-logo.svg' %}" alt="Foto Profil" class="img-thumbnail mt-3" style="max-width: 150px;">
+                {% endif %}
+            </div>
+            <button type="submit" class="btn mt-4">Simpan</button>
+        </div>
+    </div>
+</form>
 </div>
 {% endblock %}
-
 </html>

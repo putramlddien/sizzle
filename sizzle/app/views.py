@@ -1,7 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponse, HttpResponseForbidden, JsonResponse
-from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
-from .models import Kursus, Resep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis, Submission, Kuis, Pertanyaan, Pilihan, HasilKuis
+from .models import Kursus, Resep, UserResep, Teknik, Artikel, KategoriResep, KategoriKursus, UserKursus, Pertemuan, KontenKursus, UserKonten, Tugas, Kuis, Submission, Kuis, Pertanyaan, Pilihan, HasilKuis
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login as auth_login, logout as auth_logout
 from django.contrib.auth.models import User
@@ -63,13 +62,16 @@ def profile(request):
             user_form.save()
             profile_form.save()
             return redirect('profile')
+        else:
+            print("User Form Errors:", user_form.errors)
+            print("Profile Form Errors:", profile_form.errors)
     else:
         user_form = UserForm(instance=request.user)
         profile_form = UserProfileForm(instance=request.user.userprofile)
-    
+
     context = {
         'user_form': user_form,
-        'profile_form': profile_form
+        'profile_form': profile_form,
     }
     return render(request, 'profile.html', context)
 
@@ -229,6 +231,25 @@ def detail_resep(request, id_resep):
         'informasi_nutrisi': resep.informasi_nutrisi,
         'langkah_cara_membuat': langkah_cara_membuat
     })
+
+@login_required
+def simpan_resep(request, id_resep):
+    resep = get_object_or_404(Resep, id_resep=id_resep)
+    user = request.user
+
+    if not UserResep.objects.filter(user=user, resep=resep).exists():
+        UserResep.objects.create(user=user, resep=resep)
+
+    return redirect('detail_resep', id_resep=id_resep)
+
+
+def resepbookmark(request):
+    user = request.user
+    user_resep = UserResep.objects.filter(user=user).select_related('resep')
+    context = {
+        'user_resep': user_resep
+    }
+    return render(request, 'base.html', context)
 
 def kategori_resep(request):
     return render(request, )
