@@ -79,6 +79,24 @@
         </div>
     </section>
 
+    <section class="ig-post" id="ig-post">
+    <div class="title">
+        <h2>Post Instagram</h2>
+        <p>Lorem ipsum dolor sit amet consectetur adipisicing.</p>
+    </div>
+    <div class="blog-content">
+        {% for artikel in edukasi %}
+        <blockquote
+            class="instagram-media mx-auto"
+            data-instgrm-permalink="https://www.instagram.com/p/C8eJlhiPR3u"
+            data-instgrm-version="13"
+        >
+            <a href="https://www.instagram.com/p/C8eJlhiPR3u" target="_blank"></a>
+        </blockquote>
+        {% endfor %}
+    </div>
+</section>
+
 </div>
 {% endblock %}
 
